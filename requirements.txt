@@ -1,0 +1,9 @@
+fastapi==0.141.1
+uvicorn==0.54.0
+mcp==2.2.0
+google-genai==2.25.0
+pydantic==2.13.5
+python-dotenv==1.2.3
+# テスト用
+pytest==9.1.1
+httpx==0.28.1

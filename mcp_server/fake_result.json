@@ -1,0 +1,40 @@
+{
+  "questions": [
+    {
+      "question": "空のキャッシュに対してget(user_id)が呼ばれたとき、取得したuserはどう扱われますか？",
+      "choices": [
+        "repoから取得し、キャッシュへ保存して返す",
+        "repoから取得するが、キャッシュへは保存しない",
+        "repoへ問い合わせず、必ずNoneを返す",
+        "キャッシュにないので、必ず例外を送出する"
+      ],
+      "correct_index": 0,
+      "hint": "repo.findの直後にある代入を確認してください。",
+      "explanation": "repo.findで取得したuserをself.cache[user_id]に保存し、そのuserを返しています。"
+    },
+    {
+      "question": "削除したuserがキャッシュに残ったままだと、その後のget(user_id)で何が起こり得ますか？",
+      "choices": [
+        "必ずrepoへ再問い合わせする",
+        "キャッシュに残った古いuserを返す",
+        "repoのデータが自動的に復元される",
+        "キャッシュ全体が削除される"
+      ],
+      "correct_index": 1,
+      "hint": "getの中で、repo.findより先に実行する処理を確認してください。",
+      "explanation": "getはキャッシュにキーがあればその値を返します。deleteでキーを消さないと、削除前のuserが返る可能性があります。"
+    },
+    {
+      "question": "self.cacheが通常のPythonのdictの場合、pop(user_id, None)のNoneは何のためにありますか？",
+      "choices": [
+        "すべてのキャッシュを空にするため",
+        "キーがなくても新しいuserを登録するため",
+        "キーがない場合に例外ではなく既定値を返すため",
+        "repo.deleteをもう一度実行するため"
+      ],
+      "correct_index": 2,
+      "hint": "popに渡す2つ目の引数に注目してください。",
+      "explanation": "通常のdictでは、キーがないときに第2引数の既定値を返します。ここではNoneを指定し、キーがない場合のKeyErrorを避けています。"
+    }
+  ]
+}
