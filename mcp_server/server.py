@@ -5,7 +5,7 @@ FastAPIからstdioで起動される。Gemini APIキーを持つのはこのプ�
 
 環境変数:
     GEMINI_API_KEY   Google AI StudioのAPIキー
-    GEMINI_MODEL     使うモデル（既定 gemini-2.5-flash）
+    GEMINI_MODEL     使うモデル（既定 gemini-3.8-flash）
     QUIZ_GENERATOR   "gemini"（既定）または "fake"（Geminiを呼ばず固定データを返す。疎通確認用）
                      "fake_insufficient"（根拠不足エラーを返す。422の確認用）
 """
@@ -70,7 +70,7 @@ async def generate_quiz(
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise ToolError("GEMINI_API_KEY is not set")
-    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+    model = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash")
 
     user_input = json.dumps(
         {"message": message, "files": files, "diff": diff, "language": language},

@@ -114,7 +114,7 @@ mcp-test/
 | 言語 | Python 3.11+ |
 | Web | FastAPI + uvicorn |
 | MCP | 公式 `mcp` Python SDK（Server: FastMCP / Client: ClientSession） |
-| AI | Google AI Studio（`google-genai` SDK）、モデルは環境変数 `GEMINI_MODEL` で切替（既定 `gemini-2.5-flash`） |
+| AI | Google AI Studio（`google-genai` SDK）、モデルは環境変数 `GEMINI_MODEL` で切替（既定 `gemini-3.8-flash`） |
 | 出力形式 | Geminiの `response_schema`（JSON Schema）で構造化出力を強制 |
 | タイムアウト | MCP呼び出し20秒（設計書8.2の案） |
 
