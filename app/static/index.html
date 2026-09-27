@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MCP連携 PoC</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    label { font-weight: bold; display: block; margin: 16px 0 6px; }
+    textarea, pre { width: 100%; box-sizing: border-box; font-family: ui-monospace, monospace; font-size: 13px; }
+    textarea { height: 320px; }
+    pre { background: #f4f4f4; padding: 12px; min-height: 120px; white-space: pre-wrap; word-break: break-all; }
+    button { margin-top: 12px; padding: 8px 24px; font-size: 15px; }
+  </style>
+</head>
+<body>
+  <label for="input">送るデータ（D1 JSON）</label>
+  <textarea id="input" spellcheck="false"></textarea>
+  <button id="send">送信</button>
+  <label>返答</label>
+  <pre id="output"></pre>
+
+  <script>
+    const input = document.getElementById("input");
+    const output = document.getElementById("output");
+    const send = document.getElementById("send");
+
+    fetch("/static/sample_d1.json")
+      .then((r) => r.json())
+      .then((d) => { input.value = JSON.stringify(d, null, 2); });
+
+    send.addEventListener("click", async () => {
+      let body;
+      try {
+        body = JSON.parse(input.value);
+      } catch (e) {
+        output.textContent = "JSONとして読めません: " + e.message;
+        return;
+      }
+      send.disabled = true;
+      output.textContent = "送信中…（MCP経由で生成しています）";
+      try {
+        const res = await fetch("/api/v1/commits", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        const text = await res.text();
+        let shown = text;
+        try { shown = JSON.stringify(JSON.parse(text), null, 2); } catch (_) {}
+        output.textContent = `HTTP ${res.status}\n${shown}`;
+      } catch (e) {
+        output.textContent = "通信に失敗しました: " + e.message;
+      } finally {
+        send.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
